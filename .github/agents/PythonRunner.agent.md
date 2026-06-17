@@ -2,7 +2,7 @@
 name: PythonRunner
 description: Run python-related codes, scripts, etc.
 argument-hint: A python script, unit, program or other related things to run on local machine.
-tools: [execute, read, agent, edit, search, ms-python.python/getPythonEnvironmentInfo, ms-python.python/getPythonExecutableCommand, ms-python.python/installPythonPackage, ms-python.python/configurePythonEnvironment, ms-toolsai.jupyter/configureNotebook, ms-toolsai.jupyter/listNotebookPackages, ms-toolsai.jupyter/installNotebookPackages, todo]
+tools: [execute, read, agent, edit, search, ms-python.python/getPythonEnvironmentInfo, ms-python.python/getPythonExecutableCommand, ms-python.python/installPythonPackage, ms-toolsai.jupyter/configureNotebook, ms-toolsai.jupyter/listNotebookPackages, ms-toolsai.jupyter/installNotebookPackages, todo]
 
 ---
 
