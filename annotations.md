@@ -7,6 +7,7 @@
 - 注释、PR 描述、ISSUE 描述只写结论，不写思考过程和调试备忘。
 - 代码与文档只描述它是什么。
 - 源文件头部、函数头部的注释块只说明主要功能，不描述实现逻辑。
+- 使用完整的句式，低门槛的、通俗易懂的叙述语句。
 
 ### 禁止
 
@@ -15,6 +16,9 @@
 - 描述没做什么，只描述做了什么。
 - 使用``被包裹的内容``，统一使用`被包裹的内容`。
 - 在`被包裹的内容`中使用引号。
+- 不常见的缩写、无法在临近上下文中明确语义的缩写。
+- 使用括号对语句进行补充
+- 高度缩写化行话表达。
 
 ### 例外
 
@@ -24,6 +28,93 @@
 - 省略会让读者误判改动边界，如"对外 API 不变"。
 - 用户明确要求。
 - 安全/兼容等硬性约束。
+
+### 案例
+
+原本：
+"""赛题 NWB 到临析内部表示的载入算子（LOAD 阶段）：读取发放矩阵、光标信号与试次表。
+
+query 侧计数矩阵与行为序列写入根容器 `binned_spikes` / `behavior_recording`，support 侧整体写入 `context.ecephys[recording_key]`，session 标识由 NWB 相对 `data_root` 的路径派生。
+"""
+简化后：
+"""读取赛题 NWB 至临析内部表示的载入算子"""
+
+原本：
+```python
+class DriftVocabulary:
+    """会话分级词表：日期正则（首捕获组 8 位日期）与 train/holdout/聚合层名，默认值 = 运动赛道数据口径。"""
+```
+简化后：
+```python
+class DriftVocabulary:
+    """会话分级词表"""
+```
+
+原本：
+"""计算全套漂移指标：发放率 → 质心 → 逐 session 指标 → 聚合层均值。
+
+`vocabulary` 提供 train/holdout/聚合层名与日期正则，默认值 = 运动赛道口径。
+"""
+简化后：
+"""计算全套漂移指标"""
+
+### 与存量风格的关系
+
+与仓库存量写法冲突时，存量即待清理对象，不构成延续的先例；执行中发现违规存量应向用户报告，但不得直接修改，除非用户指定正在做这件事情。
+
+## Docstring 标准格式
+
+### 唯一判据
+
+对注释里的每个陈述自问：读者能否从被注释对象本身、紧邻代码或就地 raise 文案中看到等价事实？能，就删除。举证方向固定为默认删除，保留才需要理由，且理由必须通过本测试。
+
+### 形状
+
+- 函数 docstring 为一行目的短语加 `Args` 小节。
+- `Args` 不重复签名已有的类型注解。
+- 不设 `Returns` 与 `Raises` 小节，仅在返回值语义无法从类型注解与类定义恢复、或抛错条件无法从代码一眼看出时引入。
+- 结果载体 dataclass 的 docstring 为一句定性，字段名即说明。字段出现 None 的退化分支，只要构造点唯一且分支紧邻函数开头，就写不进 docstring。
+
+### 案例
+
+合格形态1：
+
+```python
+def head_refit(source_model: SVC, support: LabeledFeatures, x_query: np.ndarray) -> HeadRefit:
+    """在源模型的 decision 分数上拟合 logistic 校准头。
+
+    Args
+    ----
+    source_model :
+        冻结的源线性 SVC。
+    support :
+        校准用带标签特征。
+    x_query :
+        目标特征。
+    """
+```
+
+违规形态1：
+
+```python
+"""输入：源线性 SVC、eval-1 support 特征+标签（可为 0 行）、query 特征。
+不变量：X 为 (n, d) 二维、y 为 (n,) 一维，第 i 行特征 ↔ y[i]。
+models[i] 仅由 sources[i] 训练，pred 按 summed_decision 符号映射，行序 = x_query 行序。"""
+```
+
+合格形态2：
+"""Challenge 1 中同一天解码的基线实现"""
+
+违规形态2：
+"""c1 同天教程基线：unit_space 均衡下采样特征上五折 CV（`repro_baseline_c1.cv_grid` 口径）产 CV 指标。
+
+`mem_acc` / `corr_acc` 为逐标签 best-C CV 均值（教程基线的 accuracy 载体），
+`session_score` 按赛题 readme 线性组合；逐 trial 预测列经 `make_submissions.c1_submission`
+（final model 口径单一来源 `baseline_c1_cv.json` 的 best_C）对同一文件全部 trial 样本内预测，
+按 trial_indices 反置换回文件序。CV 明细（best C、网格逐行、种子、样本数）以
+`lince_dpa_c1_cv` 顶层键入侧车。
+"""
+
 
 ## 用户文档（README、安装指引、示例说明）
 
