@@ -55,6 +55,8 @@ conda run -n dbci --no-capture-output <command>
 
 请注意运行pytest在大型仓库中是非常昂贵的，不要轻易执行全仓测试，这种测试一般只在任务接近完成时运行一次。
 
+谨慎使用find指令，控制搜索范围。
+
 ### git
 
 请按需创建新分支，以免影响其他工作，必要时可以使用git worktree。
