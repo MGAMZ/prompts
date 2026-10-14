@@ -115,7 +115,6 @@ models[i] 仅由 sources[i] 训练，pred 按 summed_decision 符号映射，行
 `lince_dpa_c1_cv` 顶层键入侧车。
 """
 
-
 ## 用户文档（README、安装指引、示例说明）
 
 README 面向不熟悉本仓库的新用户，只保留完成首次使用所需的信息。
